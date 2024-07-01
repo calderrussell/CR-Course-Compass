@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CR Course Compass</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>CR Course Compass</h1>
+        <input type="text" id="searchBar" placeholder="Search classes...">
+    </header>
+
+    <section id="classFormSection">
+        <h2>Add a New Class</h2>
+        <form id="classForm">
+            <input type="text" id="className" placeholder="Class Name" required>
+            <input type="text" id="classTeacher" placeholder="Teacher" required>
+            <button type="submit">Add Class</button>
+        </form>
+    </section>
+
+    <section id="classListSection">
+        <h2>Class List</h2>
+        <ul id="classList">
+            <!-- Classes will be added here dynamically -->
+        </ul>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
