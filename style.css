@@ -39,3 +39,24 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+/* Add the following CSS to handle the visibility of the delete button */
+#classList li {
+    padding: 10px;
+    margin-bottom: 5px;
+    position: relative; /* Allows the delete button to be positioned absolutely */
+}
+
+/* Hide the delete button by default */
+#classList li button {
+    display: none;
+    position: absolute;
+    right: 10px; /* Position the button on the right */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Show the delete button when hovering over the list item */
+#classList li:hover button {
+    display: inline-block;
+}
