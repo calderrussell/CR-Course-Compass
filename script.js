@@ -65,5 +65,4 @@ function clearClasses() {
 
 document.getElementById('clearClassesButton').addEventListener('click', clearClasses);
 
-
 window.onload = loadClasses;
