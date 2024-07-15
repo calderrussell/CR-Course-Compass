@@ -55,4 +55,15 @@ function deleteClass(button) {
     }
 }
 
+function clearClasses() {
+    localStorage.removeItem('classes'); // Clear local storage
+    const list = document.getElementById('classList');
+    while (list.firstChild) {
+        list.removeChild(list.firstChild); // Remove all list items from the DOM
+    }
+}
+
+document.getElementById('clearClassesButton').addEventListener('click', clearClasses);
+
+
 window.onload = loadClasses;
