@@ -25,13 +25,39 @@
     </section>
 
     <section id="classListSection">
-        <h2>
-            Class List
+        <div class="header-with-button">
+            <h2>Class List</h2>
             <button id="clearClassesButton">Clear All Classes</button>
-        </h2>
+        </div>
         <ul id="classList">
             <!-- Classes will be added here dynamically -->
         </ul>
+    </section>
+
+    <section id="assignmentFormSection" style="display: none;">
+        <h2>Add Assignment</h2>
+        <form id="assignmentForm">
+            <input type="text" id="assignmentName" placeholder="Assignment Name" required>
+            <input type="date" id="assignmentDate" required>
+            <select id="assignmentType" required>
+                <option value="Lab">Lab</option>
+                <option value="Essay">Essay</option>
+                <option value="Homework">Homework</option>
+                <option value="Test">Test</option>
+                <option value="Quiz">Quiz</option>
+                <option value="Reading">Reading</option>
+                <option value="Other">Other</option>
+            </select>
+            <textarea id="assignmentDescription" placeholder="Description (optional)"></textarea>
+            <button type="submit">Add Assignment</button>
+        </form>
+    </section>
+
+    <section id="calendarSection" style="display: none;">
+        <h2>Calendar</h2>
+        <div id="calendar">
+            <!-- Calendar will be displayed here dynamically -->
+        </div>
     </section>
 
     <script src="script.js"></script>
