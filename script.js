@@ -1,6 +1,6 @@
 let classes = [];
 let currentClassId = null;
-let calendar; // Variable meant to store the Full Calendar instance
+let calendar = null; // Initialize calendar as null
 
 document.getElementById('classForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -36,6 +36,10 @@ document.getElementById('clearClassesButton').addEventListener('click', function
     document.getElementById('classList').innerHTML = '';
     document.getElementById('assignmentFormSection').style.display = 'none';
     document.getElementById('calendarSection').style.display = 'none';
+    if (calendar) {
+        calendar.destroy();
+        calendar = null;
+    }
 });
 
 function addClass(name, teacher, period, subject, year) {
@@ -88,7 +92,8 @@ function displayClasses() {
             currentClassId = classObject.id;
             document.getElementById('assignmentFormSection').style.display = 'block';
             document.getElementById('calendarSection').style.display = 'block';
-            displayCalendar(currentClassId);
+            initializeCalendar(); // Ensure the calendar is initialized here
+            displayCalendar(currentClassId); // Call displayCalendar after initializing
         });
         classList.appendChild(listItem);
     });
@@ -113,17 +118,20 @@ function initializeCalendar() {
 
 function displayCalendar(classId) {
     const classObject = classes.find(c => c.id === classId);
-    calendar.removeAllEvents();
-    classObject.assignments.forEach(assignment => {
-        calendar.addEvent({
-            id: assignment.id.toString(),
-            title: `${assignment.name} (${assignment.type})`,
-            start: assignment.date,
-            description: assignment.description
+    if (calendar) {
+        calendar.removeAllEvents();
+        classObject.assignments.forEach(assignment => {
+            calendar.addEvent({
+                id: assignment.id.toString(),
+                title: `${assignment.name} (${assignment.type})`,
+                start: assignment.date,
+                description: assignment.description
+            });
         });
-    });
+    } else {
+        console.error("Calendar is not initialized.");
+    }
 }
-
 
 function deleteClass(classId) {
     classes = classes.filter(c => c.id !== classId);
@@ -131,6 +139,10 @@ function deleteClass(classId) {
     displayClasses();
     document.getElementById('assignmentFormSection').style.display = 'none';
     document.getElementById('calendarSection').style.display = 'none';
+    if (calendar) {
+        calendar.destroy();
+        calendar = null;
+    }
 }
 
 function deleteAssignment(classId, assignmentId) {
