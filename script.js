@@ -1,5 +1,6 @@
 let classes = [];
 let currentClassId = null;
+let calendar; // Variable meant to store the Full Calendar instance
 
 document.getElementById('classForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -93,21 +94,36 @@ function displayClasses() {
     });
 }
 
+function initializeCalendar() {
+    if (calendar) {
+        calendar.destroy();
+    }
+    const calendarEl = document.getElementById('calendar');
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        editable: true,
+        eventClick: function(info) {
+            if (confirm('Are you sure you want to delete this assignment?')) {
+                deleteAssignment(currentClassId, info.event.id);
+            }
+        }
+    });
+    calendar.render();
+}
+
 function displayCalendar(classId) {
     const classObject = classes.find(c => c.id === classId);
-    const calendar = document.getElementById('calendar');
-    calendar.innerHTML = '';
+    calendar.removeAllEvents();
     classObject.assignments.forEach(assignment => {
-        const assignmentDiv = document.createElement('div');
-        assignmentDiv.className = 'assignment';
-        assignmentDiv.innerHTML = `
-            <strong>${assignment.name}</strong> (${assignment.type}) - ${assignment.date}
-            <p>${assignment.description}</p>
-            <button onclick="deleteAssignment(${classId}, ${assignment.id})">Delete</button>
-        `;
-        calendar.appendChild(assignmentDiv);
+        calendar.addEvent({
+            id: assignment.id.toString(),
+            title: `${assignment.name} (${assignment.type})`,
+            start: assignment.date,
+            description: assignment.description
+        });
     });
 }
+
 
 function deleteClass(classId) {
     classes = classes.filter(c => c.id !== classId);
@@ -119,7 +135,7 @@ function deleteClass(classId) {
 
 function deleteAssignment(classId, assignmentId) {
     const classObject = classes.find(c => c.id === classId);
-    classObject.assignments = classObject.assignments.filter(a => a.id !== assignmentId);
+    classObject.assignments = classObject.assignments.filter(a => a.id !== parseInt(assignmentId));
     saveClasses();
     displayCalendar(classId);
 }
